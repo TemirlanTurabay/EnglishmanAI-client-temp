@@ -5,7 +5,12 @@ import { Button } from "../components/ui/button";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 
-const Login = ({ isOpen, setOpen }) => {
+interface LoginProps {
+  isOpen: boolean;
+  setOpen: (open: boolean) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ isOpen, setOpen }) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +32,6 @@ const Login = ({ isOpen, setOpen }) => {
   const handleGoogleLogin = () => {
     window.location.href = "https://englishmanai-server-temp-production.up.railway.app/api/auth/google";
   };
-
 
   const handleX = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setOpen(false);
@@ -66,3 +70,4 @@ const Login = ({ isOpen, setOpen }) => {
 };
 
 export default Login;
+
