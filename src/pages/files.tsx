@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { Finalfooter } from "./finalfooter";
+import { Finalfooter } from "../components/finalfooter";
 import {
   Card,
   CardContent,
@@ -10,12 +10,15 @@ import {
   CardFooter,
 } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Document, Page, pdfjs } from "react-pdf";
+import dynamic from "next/dynamic";
 import Modal from "../components/ui/modal";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+// Dynamically import react-pdf components with ssr: false
+const PDFViewer = dynamic(() => import("../components/pdf-viewer"), {
+  ssr: false,
+});
 
-const Files = () => {
+const Files: React.FC = () => {
   const [files, setFiles] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
@@ -38,8 +41,8 @@ const Files = () => {
           console.error("No token found");
           return;
         }
-        const res = await axios.get(
-          " http://englishmanai-server-temp-production.up.railway.app/api/files",
+        const res = await axios.get<{ files: string[] }>(
+          "http://englishmanai-server-temp-production.up.railway.app/api/files",
           {
             headers: {
               "x-auth-token": token,
@@ -61,7 +64,7 @@ const Files = () => {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.get(
-        ` http://englishmanai-server-temp-production.up.railway.app/api/files/${fileName}`,
+        `http://englishmanai-server-temp-production.up.railway.app/api/files/${fileName}`,
         {
           headers: {
             "x-auth-token": token,
@@ -101,7 +104,6 @@ const Files = () => {
             <Link
               href="/"
               className="text-2xl font-bold text-primary text-black"
-              prefetch={false}
             >
               EnglishmanAI
             </Link>
@@ -169,12 +171,9 @@ const Files = () => {
       {showModal && selectedFile && (
         <Modal open={showModal} onClose={closeModal}>
           <div className="w-full h-full">
-            <Document
-              file={` http://englishmanai-server-temp-production.up.railway.app/api/files/${selectedFile}`}
-              onLoadError={console.error}
-            >
-              <Page pageNumber={1} />
-            </Document>
+            <PDFViewer
+              fileUrl={`http://englishmanai-server-temp-production.up.railway.app/api/files/${selectedFile}`}
+            />
           </div>
         </Modal>
       )}
@@ -182,8 +181,9 @@ const Files = () => {
   );
 };
 
-//@ts-ignore
-function GlobeIcon(props) {
+interface GlobeIconProps extends React.SVGProps<SVGSVGElement> {}
+
+const GlobeIcon: React.FC<GlobeIconProps> = (props) => {
   return (
     <svg
       {...props}
@@ -202,6 +202,6 @@ function GlobeIcon(props) {
       <path d="M2 12h20" />
     </svg>
   );
-}
+};
 
 export default Files;

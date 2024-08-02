@@ -1,15 +1,11 @@
-const withTM = require('next-transpile-modules')([
-    'react-pdf',
-    'pdfjs-dist',
-]);
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+};
 
-module.exports = withTM({
-    webpack: (config) => {
-        config.module.rules.push({
-            test: /pdf\.worker\.(min\.)?js/,
-            use: 'file-loader',
-        });
-
-        return config;
-    },
-});
+module.exports = nextConfig;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { Finalfooter } from "./finalfooter";
+import { Finalfooter } from "../components/finalfooter";
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 
@@ -26,11 +26,14 @@ const Topics = () => {
           return;
         }
 
-        const res = await axios.get(" https://englishmanai-server-temp-production.up.railway.app/api/topics", {
-          headers: {
-            "x-auth-token": token,
-          },
-        });
+        const res = await axios.get(
+          " https://englishmanai-server-temp-production.up.railway.app/api/topics",
+          {
+            headers: {
+              "x-auth-token": token,
+            },
+          }
+        );
         setTopics(res.data);
       } catch (err) {
         console.error("Error fetching topics:", err);
