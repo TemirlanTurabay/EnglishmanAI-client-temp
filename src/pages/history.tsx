@@ -17,14 +17,8 @@ const History = () => {
   useEffect(() => {
     const fetchChatHistory = async () => {
       try {
-        const token = localStorage.getItem("token");
         const res = await api.get(
-          " https://englishmanai-server-temp-production.up.railway.app/api/ai/history",
-          {
-            headers: {
-              "x-auth-token": token,
-            },
-          }
+          "https://englishmanai-server-temp-production.up.railway.app/api/ai/history"
         );
         setChatHistory(res.data);
       } catch (err) {
