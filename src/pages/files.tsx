@@ -42,7 +42,7 @@ const Files: React.FC = () => {
           return;
         }
         const res = await axios.get<{ files: string[] }>(
-          "http://englishmanai-server-temp-production.up.railway.app/api/files",
+          "https://englishmanai-server-temp-production.up.railway.app/api/files",
           {
             headers: {
               "x-auth-token": token,
