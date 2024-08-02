@@ -64,7 +64,7 @@ const Files: React.FC = () => {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://englishmanai-server-temp-production.up.railway.app/api/files/${fileName}`,
+        `https://englishmanai-server-temp-production.up.railway.app/api/files/${fileName}`,
         {
           headers: {
             "x-auth-token": token,
@@ -172,7 +172,7 @@ const Files: React.FC = () => {
         <Modal open={showModal} onClose={closeModal}>
           <div className="w-full h-full">
             <PDFViewer
-              fileUrl={`http://englishmanai-server-temp-production.up.railway.app/api/files/${selectedFile}`}
+              fileUrl={`https://englishmanai-server-temp-production.up.railway.app/api/files/${selectedFile}`}
             />
           </div>
         </Modal>
